@@ -8,12 +8,12 @@ export default function Layout() {
   const [checking, setChecking] = useState(true)
 
   useEffect(() => {
-    api.me().catch(() => navigate('/login')).finally(() => setChecking(false))
+    api.me().catch(() => navigate('/admin/login')).finally(() => setChecking(false))
   }, [navigate])
 
   const handleLogout = async () => {
     await api.logout().catch(() => {})
-    navigate('/login')
+    navigate('/admin/login')
   }
 
   if (checking) return <div className="loading">加载中...</div>
