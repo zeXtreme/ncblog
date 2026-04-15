@@ -27,15 +27,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Cache dependencies: copy manifests first, build a dummy main to warm the cache
+# Cache dependencies: fetch all crates before copying source
 COPY backend/Cargo.toml backend/Cargo.lock ./
-RUN mkdir -p src && echo 'fn main(){}' > src/main.rs && \
-    cargo build --release && \
-    rm -f target/release/backend target/release/deps/backend*
+RUN cargo fetch
 
-# Now copy real source and build
+# Copy source and build (deps already cached in the layer above)
 COPY backend/src/ ./src/
-RUN cargo build --release
+RUN cargo build --release --offline
 
 
 # ─────────────────────────────────────────────
