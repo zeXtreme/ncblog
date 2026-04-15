@@ -16,7 +16,6 @@ interface Props {
   onChange?: (markdown: string) => void
 }
 
-// @milkdown/plugin-listener provides a listener plugin for getting markdown on change
 const MilkdownEditor = forwardRef<MilkdownEditorHandle, Props>(
   ({ defaultValue = '', onChange }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -30,7 +29,12 @@ const MilkdownEditor = forwardRef<MilkdownEditorHandle, Props>(
     useEffect(() => {
       if (!containerRef.current) return
 
-      let destroyed = false
+      // Clear the container so Milkdown can mount fresh (important for StrictMode remounts)
+      containerRef.current.innerHTML = ''
+      markdownRef.current = defaultValue
+
+      let editor: Editor | null = null
+      let cancelled = false
 
       Editor.make()
         .config(ctx => {
@@ -46,13 +50,24 @@ const MilkdownEditor = forwardRef<MilkdownEditorHandle, Props>(
         .use(history)
         .use(listener)
         .create()
-        .then(editor => {
-          if (!destroyed) editorRef.current = editor
+        .then(e => {
+          if (cancelled) {
+            e.destroy()
+          } else {
+            editor = e
+            editorRef.current = e
+          }
+        })
+        .catch(err => {
+          if (!cancelled) console.error('Milkdown init error:', err)
         })
 
       return () => {
-        destroyed = true
-        editorRef.current?.destroy()
+        cancelled = true
+        if (editor) {
+          editor.destroy()
+          editor = null
+        }
         editorRef.current = null
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,3 +79,4 @@ const MilkdownEditor = forwardRef<MilkdownEditorHandle, Props>(
 
 MilkdownEditor.displayName = 'MilkdownEditor'
 export default MilkdownEditor
+

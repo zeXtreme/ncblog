@@ -1,0 +1,37 @@
+.pages-page {
+  max-width: 700px;
+}
+
+.pages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.page-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-item:last-child {
+  border-bottom: none;
+}
+
+.page-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.page-item-label {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.page-item-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}

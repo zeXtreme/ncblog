@@ -19,7 +19,7 @@ use tower_http::{
 use tracing_subscriber::EnvFilter;
 
 use app_state::AppState;
-use routes::{auth, build, posts, site};
+use routes::{auth, build, pages, posts, site};
 
 #[tokio::main]
 async fn main() {
@@ -65,6 +65,7 @@ async fn main() {
                 .delete(posts::delete_post),
         )
         .route("/site-config", get(site::get_site_config).put(site::update_site_config))
+        .route("/pages/:name", get(pages::get_page).put(pages::update_page))
         .route("/build", post(build::trigger_build));
 
     // Hugo 生成的静态站点（博客首页）

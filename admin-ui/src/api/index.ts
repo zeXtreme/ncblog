@@ -13,6 +13,13 @@ export interface Post {
   content: string
 }
 
+export interface Page {
+  name: string
+  title: string
+  draft: boolean
+  content: string
+}
+
 export interface SiteConfig {
   title: string
   base_url: string
@@ -39,7 +46,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   })
 
   if (res.status === 401) {
-    window.location.href = '/login'
+    window.location.href = '/admin/login'
     throw new Error('未授权')
   }
 
@@ -82,6 +89,15 @@ export const api = {
   deletePost: (slug: string) =>
     request<{ success: boolean }>(`/api/posts/${slug}`, {
       method: 'DELETE',
+    }),
+
+  // Pages
+  getPage: (name: string) => request<Page>(`/api/pages/${name}`),
+
+  updatePage: (name: string, page: Page) =>
+    request<{ success: boolean }>(`/api/pages/${name}`, {
+      method: 'PUT',
+      body: JSON.stringify(page),
     }),
 
   // Site config

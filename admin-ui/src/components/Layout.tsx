@@ -26,6 +26,9 @@ export default function Layout() {
           <NavLink to="/posts" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
             文章
           </NavLink>
+          <NavLink to="/pages" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+            页面
+          </NavLink>
           <NavLink to="/site-config" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
             站点设置
           </NavLink>

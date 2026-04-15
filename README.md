@@ -116,6 +116,8 @@ All endpoints require a session cookie (obtained via `POST /api/login`).
 | DELETE | `/api/posts/:slug` | Delete post |
 | GET | `/api/site-config` | Read `site/hugo.toml` params |
 | PUT | `/api/site-config` | Write `site/hugo.toml` params |
+| GET | `/api/pages/:name` | Get standalone page (about, archives…) |
+| PUT | `/api/pages/:name` | Save standalone page |
 | POST | `/api/build` | Run `hugo` and return output |
 
 ## Post format

@@ -3,6 +3,15 @@ use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use regex::Regex;
 
+/// 独立页面（关于、归档等）
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Page {
+    pub name: String,
+    pub title: String,
+    pub draft: bool,
+    pub content: String,
+}
+
 /// 文章元信息
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PostMeta {
@@ -172,5 +181,71 @@ pub fn delete_post(site_dir: &PathBuf, slug: &str) -> Result<()> {
     }
     std::fs::remove_file(&path)
         .with_context(|| format!("删除文章失败: {:?}", path))?;
+    Ok(())
+}
+
+/// 获取独立页面（如 about.md、archives.md）
+pub fn get_page(site_dir: &PathBuf, name: &str) -> Result<Page> {
+    let name_re = Regex::new(r"^[a-zA-Z0-9_\-]+$").unwrap();
+    if !name_re.is_match(name) {
+        anyhow::bail!("页面名称格式无效");
+    }
+
+    let path = site_dir.join("content").join(format!("{}.md", name));
+
+    // 页面文件不存在时返回空内容
+    if !path.exists() {
+        return Ok(Page {
+            name: name.to_string(),
+            title: name.to_string(),
+            draft: false,
+            content: String::new(),
+        });
+    }
+
+    let text = std::fs::read_to_string(&path)
+        .with_context(|| format!("读取页面失败: {:?}", path))?;
+
+    if let Some(parsed) = parse_md_file(&text) {
+        let fm: toml::Value = toml::from_str(&parsed.frontmatter)
+            .with_context(|| format!("解析页面 frontmatter 失败: {:?}", path))?;
+        Ok(Page {
+            name: name.to_string(),
+            title: extract_string(&fm, "title"),
+            draft: extract_bool(&fm, "draft", false),
+            content: parsed.content,
+        })
+    } else {
+        // 无 frontmatter，当作纯内容
+        Ok(Page {
+            name: name.to_string(),
+            title: name.to_string(),
+            draft: false,
+            content: text,
+        })
+    }
+}
+
+/// 保存独立页面
+pub fn save_page(site_dir: &PathBuf, page: &Page) -> Result<()> {
+    let name_re = Regex::new(r"^[a-zA-Z0-9_\-]+$").unwrap();
+    if !name_re.is_match(&page.name) {
+        anyhow::bail!("页面名称格式无效");
+    }
+
+    let content_dir = site_dir.join("content");
+    std::fs::create_dir_all(&content_dir)?;
+
+    let path = content_dir.join(format!("{}.md", page.name));
+
+    let frontmatter = format!(
+        "+++\ntitle = \"{}\"\ndraft = {}\n+++\n\n",
+        page.title.replace('"', "\\\""),
+        page.draft,
+    );
+
+    std::fs::write(&path, format!("{}{}", frontmatter, page.content))
+        .with_context(|| format!("写入页面失败: {:?}", path))?;
+
     Ok(())
 }
