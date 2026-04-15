@@ -29,9 +29,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Cache dependencies: fetch all crates before copying source
 COPY backend/Cargo.toml backend/Cargo.lock ./
-RUN cargo fetch
+RUN mkdir -p src && echo 'fn main(){}' > src/main.rs && cargo fetch
 
-# Copy source and build (deps already cached in the layer above)
+# Copy real source and build (deps already cached in the layer above)
 COPY backend/src/ ./src/
 RUN cargo build --release --offline
 
