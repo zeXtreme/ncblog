@@ -17,7 +17,7 @@ RUN npm run build
 # ─────────────────────────────────────────────
 # Stage 2: Build Rust backend
 # ─────────────────────────────────────────────
-FROM rust:1.82-slim-bookworm AS backend
+FROM rust:1.85-slim-bookworm AS backend
 
 WORKDIR /build
 
