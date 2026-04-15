@@ -1,6 +1,6 @@
 services:
   ncblog:
-    build: .
+    image: ghcr.io/zextreme/ncblog:latest
     ports:
       - "3000:3000"
     volumes:
