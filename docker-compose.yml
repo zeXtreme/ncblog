@@ -1,0 +1,19 @@
+services:
+  ncblog:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      # Persist articles: edits via admin UI survive container restarts
+      - ./site/content:/app/site/content
+      # Persist site config (title, author, social links, etc.)
+      - ./site/hugo.toml:/app/site/hugo.toml
+      # Hugo-generated static files (named volume, stays inside Docker)
+      - hugo_public:/app/site/public
+    environment:
+      - ADMIN_PASSWORD=admin123   # Change before exposing publicly
+      - PORT=3000
+    restart: unless-stopped
+
+volumes:
+  hugo_public:

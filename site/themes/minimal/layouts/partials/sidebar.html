@@ -1,0 +1,37 @@
+<div class="sidebar-inner">
+  <a class="site-brand" href="{{ "/" | relURL }}">
+    {{ with .Site.Params.avatar }}
+      <img class="avatar" src="{{ . | relURL }}" alt="{{ $.Site.Params.author }}">
+    {{ else }}
+      <div class="avatar-placeholder">{{ substr .Site.Title 0 1 }}</div>
+    {{ end }}
+    <div>
+      <div class="site-title">{{ .Site.Title }}</div>
+      {{ with .Site.Params.author }}
+        <div class="site-author">{{ . }}</div>
+      {{ end }}
+    </div>
+  </a>
+
+  {{ with .Site.Params.bio }}
+    <p class="site-bio">{{ . }}</p>
+  {{ end }}
+
+  {{ partial "menu.html" . }}
+
+  {{ if .Site.Taxonomies.categories }}
+    <div class="sidebar-section">
+      <h2 class="sidebar-heading">分类</h2>
+      {{ partial "taxonomy-list.html" (dict "Terms" .Site.Taxonomies.categories "Base" "categories") }}
+    </div>
+  {{ end }}
+
+  {{ if .Site.Taxonomies.tags }}
+    <div class="sidebar-section">
+      <h2 class="sidebar-heading">标签</h2>
+      {{ partial "taxonomy-list.html" (dict "Terms" .Site.Taxonomies.tags "Base" "tags") }}
+    </div>
+  {{ end }}
+
+  {{ partial "social-links.html" . }}
+</div>

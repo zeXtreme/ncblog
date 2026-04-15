@@ -1,0 +1,17 @@
+.milkdown-wrapper {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  min-height: 480px;
+  overflow: hidden;
+}
+
+.milkdown-wrapper .milkdown {
+  min-height: 480px;
+  padding: 1.25rem 1.5rem;
+  outline: none;
+}
+
+.milkdown-wrapper .milkdown:focus-within {
+  box-shadow: 0 0 0 3px rgba(47,111,237,.15);
+  border-color: var(--accent);
+}

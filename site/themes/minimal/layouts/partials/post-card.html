@@ -1,0 +1,12 @@
+<article class="post-card">
+  <header>
+    <h2 class="post-card-title">
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    </h2>
+    {{ partial "post-meta.html" . }}
+  </header>
+
+  {{ with .Summary }}
+    <p class="post-card-summary">{{ . | plainify }}</p>
+  {{ end }}
+</article>

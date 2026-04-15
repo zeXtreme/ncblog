@@ -1,0 +1,67 @@
+.edit-page { max-width: 1280px; }
+
+.edit-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.edit-form { margin-top: 0; }
+
+.edit-columns {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .edit-columns { grid-template-columns: 1fr; }
+}
+
+.meta-panel {
+  padding: 1.25rem;
+  position: sticky;
+  top: 72px;
+}
+
+.panel-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.draft-toggle label {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.draft-toggle input[type=checkbox] {
+  width: auto;
+  cursor: pointer;
+}
+
+.save-btn {
+  width: 100%;
+  padding: .625rem;
+  margin-top: .5rem;
+}
+
+.editor-panel { min-width: 0; }
+
+.editor-label {
+  font-size: .875rem;
+  font-weight: 500;
+  margin-bottom: .5rem;
+  color: var(--text);
+}
+
+textarea {
+  resize: vertical;
+}

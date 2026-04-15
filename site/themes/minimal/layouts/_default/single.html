@@ -1,0 +1,37 @@
+{{ define "main" }}
+<article class="post">
+  <header class="post-header">
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{ partial "post-meta.html" . }}
+    {{ if .Draft }}<span class="draft-badge">草稿</span>{{ end }}
+  </header>
+
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+
+  <footer class="post-footer">
+    {{ with .Params.categories }}
+      <div class="taxonomy-block">
+        <span class="taxonomy-label">分类</span>
+        <ul class="taxonomy-pills">
+          {{ range . }}
+            <li><a href="{{ (printf "categories/%s/" (. | urlize)) | relURL }}">{{ . }}</a></li>
+          {{ end }}
+        </ul>
+      </div>
+    {{ end }}
+
+    {{ with .Params.tags }}
+      <div class="taxonomy-block">
+        <span class="taxonomy-label">标签</span>
+        <ul class="taxonomy-pills">
+          {{ range . }}
+            <li><a href="{{ (printf "tags/%s/" (. | urlize)) | relURL }}">{{ . }}</a></li>
+          {{ end }}
+        </ul>
+      </div>
+    {{ end }}
+  </footer>
+</article>
+{{ end }}

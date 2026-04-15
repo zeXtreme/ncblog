@@ -1,0 +1,7 @@
+{{ with .Site.Params.social }}
+  <div class="social-links">
+    {{ with .github }}<a href="{{ . }}" target="_blank" rel="noopener">GitHub</a>{{ end }}
+    {{ with .twitter }}<a href="{{ . }}" target="_blank" rel="noopener">Twitter</a>{{ end }}
+    {{ with .email }}<a href="{{ . }}">邮件</a>{{ end }}
+  </div>
+{{ end }}

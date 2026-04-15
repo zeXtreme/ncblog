@@ -1,0 +1,8 @@
+<ul class="taxonomy-sidebar-list">
+  {{ range $name, $pages := .Terms }}
+    <li>
+      <a href="{{ (printf "/%s/%s/" $.Base ($name | urlize)) | relURL }}">{{ $name }}</a>
+      <span class="tax-count">{{ len $pages }}</span>
+    </li>
+  {{ end }}
+</ul>

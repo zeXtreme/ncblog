@@ -1,0 +1,60 @@
+baseURL = "http://localhost:3000/public/"
+languageCode = "zh-cn"
+title = "我的博客"
+description = "一个现代简约的个人博客"
+theme = "minimal"
+
+paginate = 10
+enableRobotsTXT = true
+summaryLength = 70
+
+[params]
+  author = "博主"
+  bio = "在这里写一句简短的自我介绍。"
+  avatar = "/avatar.jpg"
+  accentColor = "#2f6fed"
+  displayReadingTime = true
+  displayTags = true
+  displayCategories = true
+
+  [params.social]
+    github = ""
+    twitter = ""
+    email = ""
+
+[menu]
+  [[menu.main]]
+    name = "首页"
+    pageRef = "/"
+    weight = 10
+
+  [[menu.main]]
+    name = "关于"
+    pageRef = "/about"
+    weight = 20
+
+  [[menu.main]]
+    name = "归档"
+    pageRef = "/posts"
+    weight = 30
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+    style = "github"
+    lineNos = false
+    codeFences = true
+    guessSyntax = true
+    tabWidth = 2
+
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4

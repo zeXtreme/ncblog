@@ -1,0 +1,10 @@
+backend/target/
+admin-ui/node_modules/
+admin-ui/dist/
+site/public/
+site/resources/
+.git/
+.claude/
+*.env.local
+README.md
+docker-compose.yml

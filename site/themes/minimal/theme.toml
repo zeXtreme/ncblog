@@ -1,0 +1,6 @@
+name = "minimal"
+license = "MIT"
+description = "A minimalist two-column Hugo theme for personal blogs"
+tags = ["blog", "minimal", "responsive", "two-column"]
+features = ["responsive", "taxonomy", "clean typography"]
+min_version = "0.120.0"
